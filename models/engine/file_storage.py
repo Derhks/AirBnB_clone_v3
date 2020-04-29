@@ -75,7 +75,9 @@ class FileStorage:
         class name and its ID, or None if not found
         """
         if cls:
-            return self.__objects[cls.__name__ + '.' + id]
+            for value in self.all(cls).values():
+                if value.id == id:
+                    return value
         else:
             return None
 
@@ -83,9 +85,7 @@ class FileStorage:
         """
         This method count the number of objects in storage
         """
-        total = 0
         if cls:
-            total = len(self.all(cls))
+            return len(self.all(cls))
         else:
-            total = len(self.all())
-        return total
+            return len(self.all())
