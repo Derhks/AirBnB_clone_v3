@@ -75,8 +75,6 @@ class FileStorage:
         class name and its ID, or None if not found
         """
         if cls:
-            # Aquí estoy retornando uno de mis objetos
-            # basado en su clase y en su id
             return self.__objects[cls.__name__ + '.' + id]
         else:
             return None
