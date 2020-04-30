@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""This module connect to API"""
 from api.v1.views import app_views
 from flask import Flask, jsonify
 
