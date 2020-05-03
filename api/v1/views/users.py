@@ -78,9 +78,9 @@ def modify_user(user_id=None):
         if not request.get_json():
             return make_response(jsonify({"error": "Not a JSON"}), 400)
         else:
-            user.password = request.get_json()['password']
-            user.first_name = request.get_json()['first_name']
-            user.last_name = request.get_json()['last_name']
+            for attr, val in request.get_json().items():
+                if attr not in ['id', 'email', 'created_at', 'updated_at']:
+                    setattr(user, attr, val)
             storage.save()
             return make_response(jsonify(user.to_dict()), 200)
     else:
