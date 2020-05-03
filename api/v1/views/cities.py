@@ -17,10 +17,10 @@ def show_cities(state_id=None):
     """
     state = storage.get(State, state_id)
     if state_id is not None and state is not None:
-        all_cities = storage.all(City)
+        all_cities = state.cities
         list_cities = []
         for city in all_cities:
-            list_cities.append(all_cities[city].to_dict())
+            list_cities.append(city.to_dict())
         return jsonify(list_cities)
     else:
         return make_response(jsonify({"error": "Not found"}), 404)
