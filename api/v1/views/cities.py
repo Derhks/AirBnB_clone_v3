@@ -59,19 +59,19 @@ def create_city(state_id=None):
     This method create a city
     """
     state = storage.get(State, state_id)
-    if state_id is not None and state is not None:
-        if not request.get_json():
-            return make_response(jsonify({"error": "Not a JSON"}), 400)
-        elif 'name' not in request.get_json():
-            return make_response(jsonify({"error": "Missing name"}), 400)
-        else:
+    if not request.get_json():
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
+    elif 'name' not in request.get_json():
+        return make_response(jsonify({"error": "Missing name"}), 400)
+    else:
+        if state_id is not None and state is not None:
             request_with_state = request.get_json()
             request_with_state['state_id'] = state_id
             new_city = City(**request_with_state)
             new_city.save()
             return make_response(jsonify(new_city.to_dict()), 201)
-    else:
-        return make_response(jsonify({"error": "Not found"}), 404)
+        else:
+            return make_response(jsonify({"error": "Not found"}), 404)
 
 
 @app_views.route('/cities/<city_id>',
