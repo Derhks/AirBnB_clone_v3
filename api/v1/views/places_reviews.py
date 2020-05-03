@@ -6,6 +6,7 @@ from api.v1.views import app_views
 from flask import Flask, jsonify, make_response, request
 from models.place import Place
 from models.review import Review
+from models.user import User
 from models import storage
 
 
@@ -55,7 +56,7 @@ def delete_review(review_id=None):
 
 @app_views.route('/places/<place_id>/reviews',
                  strict_slashes=False, methods=['POST'])
-def create_review(review_id=None):
+def create_review(place_id=None):
     """
     This method create a review
     """
@@ -73,9 +74,9 @@ def create_review(review_id=None):
             custom_request = request.get_json()
             custom_request['place_id'] = place_id
             custom_request['user_id'] = user_id
-            new_place = Place(**request_with_state)
-            new_place.save()
-            return make_response(jsonify(new_place.to_dict()), 201)
+            new_review = Review(**custom_request)
+            new_review.save()
+            return make_response(jsonify(new_review.to_dict()), 201)
         else:
             return make_response(jsonify({"error": "Not found"}), 404)
 
